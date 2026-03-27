@@ -1,4 +1,6 @@
-const API_BASE_URL = `http://${window.location.hostname}:5000/api`;
+// detect if we are on the dev server (5173) or production (5000 / live url)
+const isDev = window.location.port === '5173';
+const API_BASE_URL = isDev ? `http://${window.location.hostname}:5000/api` : '/api';
 
 export const fetchProducts = async () => {
   try {
