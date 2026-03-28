@@ -26,7 +26,7 @@ const getAllSuppliers = (req, res) => {
                         .reduce((acc, pay) => acc + (pay.amount || 0), 0);
                     
                     return {
-                        ...s,
+                        ...(s.toObject ? s.toObject() : s),
                         total_purchased: totalPurchased,
                         total_paid: totalInitialPaid + totalLedgerPaid,
                         balance: totalPurchased - (totalInitialPaid + totalLedgerPaid)
