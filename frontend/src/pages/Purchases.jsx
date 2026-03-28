@@ -275,8 +275,8 @@ const Purchases = () => {
               </thead>
               <tbody>
                 {purchases.map((pur) => (
-                  <tr key={pur.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                    <td style={{ padding: '1rem', fontWeight: 'bold' }}>IMP-{pur.id.toString().padStart(4, '0')}</td>
+                  <tr key={pur.id || pur._id} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                    <td style={{ padding: '1rem', fontWeight: 'bold' }}>IMP-{(pur.id || 0).toString().padStart(4, '0')}</td>
                     <td style={{ padding: '1rem' }}>{pur.supplier_name}</td>
                     <td style={{ padding: '1rem' }}>{new Date(pur.date).toLocaleDateString()}</td>
                     <td style={{ padding: '1rem' }}>₹{pur.total_cost.toLocaleString('en-IN')}</td>

@@ -154,10 +154,10 @@ const Suppliers = () => {
             </thead>
             <tbody>
               {suppliers.map((s) => (
-                <tr key={s.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                <tr key={s.id || s._id} style={{ borderBottom: '1px solid var(--border-color)' }}>
                   <td style={{ padding: '1rem' }}>
                     <div style={{ fontWeight: 'bold', fontSize: '1.05rem' }}>{s.name}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>VND-{s.id.toString().padStart(4, '0')}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>VND-{(s.id || 0).toString().padStart(4, '0')}</div>
                   </td>
                   <td style={{ padding: '1rem' }}>
                     {s.phone ? <span>{s.phone}</span> : <span style={{color: 'var(--text-secondary)'}}>No phone</span>}

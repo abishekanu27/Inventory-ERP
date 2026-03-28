@@ -112,13 +112,13 @@ const Billing = () => {
     if (!receipt || !receipt.customer_phone) return alert("No valid phone number linked to this invoice.");
     const purePhone = receipt.customer_phone.replace(/\D/g,'');
     const waPhone = purePhone.length === 10 ? `91${purePhone}` : purePhone; 
-    const waText = `Hello ${receipt.customer_name},\n\nYour invoice *INV-${receipt.id.toString().padStart(4, '0')}* is confirmed!\nTotal Amount: *₹${receipt.total_amount.toLocaleString('en-IN')}*\n\nThank you for choosing us! 👕`;
+    const waText = `Hello ${receipt.customer_name},\n\nYour invoice *INV-${(receipt.id || 0).toString().padStart(4, '0')}* is confirmed!\nTotal Amount: *₹${receipt.total_amount.toLocaleString('en-IN')}*\n\nThank you for choosing us! 👕`;
     
     // Generate physical PDF blob for strictly the Invoice
     const element = document.getElementById('invoice-capture');
     const opt = {
       margin:       0.5,
-      filename:     `INV-${receipt.id.toString().padStart(4, '0')}.pdf`,
+      filename:     `INV-${(receipt.id || 0).toString().padStart(4, '0')}.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2 },
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -158,7 +158,7 @@ const Billing = () => {
     const element = document.getElementById('shipping-capture');
     const opt = {
       margin:       0.5,
-      filename:     `SHIP-${receipt.id.toString().padStart(4, '0')}.pdf`,
+      filename:     `SHIP-${(receipt.id || 0).toString().padStart(4, '0')}.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2 },
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -206,7 +206,7 @@ const Billing = () => {
             
             <div style={{ marginBottom: '1rem', fontSize: '0.95rem', display: 'flex', justifyContent: 'space-between' }}>
               <div>
-                <p><strong>Receipt:</strong> INV-{receipt.id.toString().padStart(4, '0')}</p>
+                <p><strong>Receipt:</strong> INV-{(receipt.id || 0).toString().padStart(4, '0')}</p>
                 <p><strong>Date:</strong> {new Date(receipt.created_at).toLocaleString()}</p>
               </div>
               <div style={{ textAlign: 'right' }}>
@@ -252,7 +252,7 @@ const Billing = () => {
             <div className="receipt-paper page-break" style={{ background: 'white', color: 'black', padding: '2rem', width: '100%', border: '1px solid #ddd', fontFamily: 'monospace' }}>
                <div style={{ textAlign: 'center', marginBottom: '2rem', borderBottom: '2px solid #000', paddingBottom: '1rem' }}>
                   <h2 style={{ margin: 0, fontSize: '1.8rem', letterSpacing: '2px' }}>SHIPPING LABEL</h2>
-                  <p style={{ margin: '0.5rem 0 0 0', fontWeight: 'bold' }}>INV-{receipt.id.toString().padStart(4, '0')}</p>
+                  <p style={{ margin: '0.5rem 0 0 0', fontWeight: 'bold' }}>INV-{(receipt.id || 0).toString().padStart(4, '0')}</p>
                </div>
                
                <div style={{ marginBottom: '2rem' }}>
@@ -458,8 +458,8 @@ const Billing = () => {
             </thead>
             <tbody>
               {invoices.map((invoice) => (
-                <tr key={invoice.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                  <td style={{ padding: '1rem', fontWeight: 'bold' }}>INV-{invoice.id.toString().padStart(4, '0')}</td>
+                <tr key={invoice.id || invoice._id} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                  <td style={{ padding: '1rem', fontWeight: 'bold' }}>INV-{(invoice.id || 0).toString().padStart(4, '0')}</td>
                   <td style={{ padding: '1rem' }}>{invoice.customer_name}<br/><span style={{fontSize: '0.85rem', color: 'var(--text-secondary)'}}>{invoice.customer_phone}</span></td>
                   <td style={{ padding: '1rem' }}>{new Date(invoice.created_at).toLocaleDateString()}</td>
                   <td style={{ padding: '1rem' }}>{invoice.payment_mode}</td>

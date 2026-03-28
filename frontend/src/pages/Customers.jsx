@@ -52,8 +52,8 @@ const Customers = () => {
             </thead>
             <tbody>
               {customers.map((c) => (
-                <tr key={c.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                  <td style={{ padding: '1rem', fontWeight: 'bold' }}>CLI-{c.id.toString().padStart(4, '0')}</td>
+                <tr key={c.id || c._id} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                  <td style={{ padding: '1rem', fontWeight: 'bold' }}>CLI-{(c.id || 0).toString().padStart(4, '0')}</td>
                   <td style={{ padding: '1rem' }}>
                     <strong>{c.name}</strong><br/>
                     <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Phone size={12}/> {c.phone}</span>

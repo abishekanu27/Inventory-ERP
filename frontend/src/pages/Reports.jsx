@@ -138,7 +138,7 @@ const Reports = () => {
   const handleExportCSV = () => {
     const headers = ['Invoice ID', 'Date', 'Customer Name', 'Phone', 'Subtotal', 'Discount %', 'Discount Amount', 'Total Amount', 'Payment Mode'];
     const rows = invoices.map(i => [
-      `INV-${i.id.toString().padStart(4, '0')}`,
+      `INV-${(i.id || 0).toString().padStart(4, '0')}`,
       new Date(i.created_at).toLocaleDateString(),
       `"${i.customer_name || ''}"`,
       i.customer_phone || '',
