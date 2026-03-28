@@ -2,9 +2,17 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 // Connect to MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(err => console.error('MongoDB connection error:', err));
+const uri = process.env.MONGO_URI;
+
+if (!uri) {
+    console.error("CRITICAL: MONGO_URI is not defined in environment variables!");
+} else {
+    mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 5000
+    })
+    .then(() => console.log('Connected to MongoDB Atlas'))
+    .catch(err => console.error('MongoDB connection error details:', err.message));
+}
 
 // --- SCHEMAS ---
 const ProductSchema = new mongoose.Schema({
@@ -82,12 +90,12 @@ const db = {
     all: async (sql, params, callback) => {
         try {
             let data = [];
-            if (sql.includes('products')) data = await Product.find().sort({ id: -1 });
-            else if (sql.includes('invoices')) data = await Invoice.find().sort({ created_at: -1 });
-            else if (sql.includes('customers')) data = await Customer.find().sort({ id: -1 });
-            else if (sql.includes('suppliers')) data = await Supplier.find().sort({ id: -1 });
-            else if (sql.includes('purchases')) data = await Purchase.find().sort({ date: -1 });
-            else if (sql.includes('supplier_payments')) data = await SupplierPayment.find().sort({ date: -1 });
+            if (sql.includes('FROM products')) data = await Product.find().sort({ id: -1 });
+            else if (sql.includes('FROM invoices')) data = await Invoice.find().sort({ created_at: -1 });
+            else if (sql.includes('FROM customers')) data = await Customer.find().sort({ id: -1 });
+            else if (sql.includes('FROM supplier_payments')) data = await SupplierPayment.find().sort({ date: -1 });
+            else if (sql.includes('FROM suppliers')) data = await Supplier.find().sort({ id: -1 });
+            else if (sql.includes('FROM purchases')) data = await Purchase.find().sort({ date: -1 });
             
             callback(null, data);
         } catch (err) {
